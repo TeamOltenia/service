@@ -29,11 +29,29 @@ public class CampaignService {
 
     }
 
+    public String updateCampaignById(String id, Campaign campaign) {
+
+        if(!StringUtils.hasText(id)){
+            throw new EntityNotFoundException(id);
+        }
+
+        CampaignEntity campaignEntity = campaignToCampaignEntity(campaign);
+
+        return campaignRepository.save(campaignEntity).getId();
+    }
 
     private Campaign campaignEntityToCampaign(CampaignEntity campaignEntity){
      return new Campaign(campaignEntity.getId(),
                 campaignEntity.getTitle(),
                 campaignEntity.getDescription(),
                 campaignEntity.getCampaignGoal());
+    }
+
+    private CampaignEntity campaignToCampaignEntity(Campaign campaign) {
+        return new CampaignEntity(
+                campaign.getId(),
+                campaign.getTitle(),
+                campaign.getDescription(),
+                campaign.getCampaignGoal());
     }
 }

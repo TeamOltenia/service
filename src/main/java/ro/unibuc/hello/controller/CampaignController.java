@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ro.unibuc.hello.dto.Campaign;
 import ro.unibuc.hello.service.CampaignService;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/api/v1/campaign", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -28,6 +31,17 @@ public class CampaignController {
 
         return ResponseEntity.ok()
                 .body(campaignService.getCampaignById(objId));
+    }
+
+    @PostMapping("")
+    public ResponseEntity<Campaign> createAuthor(@RequestBody Campaign
+                                                         campaign) throws Exception{
+        String id= campaignService.saveCampaign(campaign);
+        final var uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/" + id).toUriString();
+        return ResponseEntity.created(new URI(uri))
+                .body(campaignService.getCampaignById(id));
     }
 
 }

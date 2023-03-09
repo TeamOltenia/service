@@ -34,7 +34,7 @@ public class CampaignController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Campaign> createAuthor(@RequestBody Campaign
+    public ResponseEntity<Campaign> createCampaign(@RequestBody Campaign
                                                          campaign) throws Exception{
         String id= campaignService.saveCampaign(campaign);
         final var uri = ServletUriComponentsBuilder

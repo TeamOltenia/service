@@ -46,6 +46,19 @@ public class CampaignService {
         return campaignEntity.getId();
     }
 
+    public void deleteCampaignById(String id) {
+
+        if(!StringUtils.hasText(id)) {
+            throw new EntityNotFoundException(id);
+        }
+
+        try {
+            campaignRepository.deleteById(id);
+        }  catch (IllegalArgumentException e){
+            e.printStackTrace();
+        }
+    }
+
     private Campaign campaignEntityToCampaign(CampaignEntity campaignEntity){
      return new Campaign(campaignEntity.getId(),
                 campaignEntity.getTitle(),

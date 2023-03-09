@@ -44,4 +44,12 @@ public class CampaignController {
                 .body(campaignService.getCampaignById(id));
     }
 
+    @DeleteMapping("/deleteById/{id}")
+    public ResponseEntity<Void> deleteCampaignById(@PathVariable("id") String id) {
+
+        campaignService.deleteCampaignById(id);
+
+        return ResponseEntity.ok().build();
+    }
+
 }

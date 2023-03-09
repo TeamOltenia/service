@@ -40,6 +40,12 @@ public class CampaignService {
         return campaignRepository.save(campaignEntity).getId();
     }
 
+    public String saveCampaign(Campaign campaign){
+        CampaignEntity campaignEntity=
+                campaignRepository.save(campaignToCampaignEntity(campaign));
+        return campaignEntity.getId();
+    }
+
     private Campaign campaignEntityToCampaign(CampaignEntity campaignEntity){
      return new Campaign(campaignEntity.getId(),
                 campaignEntity.getTitle(),

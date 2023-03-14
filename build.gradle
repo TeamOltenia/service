@@ -38,6 +38,8 @@ dependencies {
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
 	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
 
+	compileOnly 'org.projectlombok:lombok:1.18.20'
+	annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
 	//	E2E tests
 	runtimeOnly "org.junit.vintage:junit-vintage-engine:5.8.2"
@@ -72,6 +74,14 @@ configurations {
 	cucumberRuntime {
 		extendsFrom testImplementation
 	}
+
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+compileJava {
+	options.annotationProcessorPath = configurations.annotationProcessor
 }
 
 task testE2E() {

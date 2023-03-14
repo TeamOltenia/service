@@ -5,7 +5,7 @@ import nonapi.io.github.classgraph.json.Id;
 public class CampaignEntity {
 
     @Id
-    public String id;
+    private String id;
 
     private String title;
     private String description;

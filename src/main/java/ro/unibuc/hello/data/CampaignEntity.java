@@ -1,7 +1,19 @@
 package ro.unibuc.hello.data;
 
+import lombok.*;
 import nonapi.io.github.classgraph.json.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@EqualsAndHashCode
+@ToString
 public class CampaignEntity {
 
     @Id
@@ -11,52 +23,6 @@ public class CampaignEntity {
     private String description;
     private Double campaignGoal;
 
-    public CampaignEntity(String id, String title, String description, Double campaignGoal) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.campaignGoal = campaignGoal;
-    }
 
-    @Override
-    public String toString() {
-        return "CampaignEntity{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", campaignGoal=" + campaignGoal +
-                '}';
-    }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Double getCampaignGoal() {
-        return campaignGoal;
-    }
-
-    public void setCampaignGoal(Double campaignGoal) {
-        this.campaignGoal = campaignGoal;
-    }
 }

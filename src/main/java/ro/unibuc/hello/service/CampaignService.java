@@ -60,17 +60,18 @@ public class CampaignService {
     }
 
     private Campaign campaignEntityToCampaign(CampaignEntity campaignEntity){
-     return new Campaign(campaignEntity.getId(),
-                campaignEntity.getTitle(),
-                campaignEntity.getDescription(),
-                campaignEntity.getCampaignGoal());
+     return Campaign.builder()
+             .id(campaignEntity.getId())
+             .campaignGoal(campaignEntity.getCampaignGoal())
+             .title(campaignEntity.getTitle())
+             .description(campaignEntity.getDescription()).build();
     }
 
     private CampaignEntity campaignToCampaignEntity(Campaign campaign) {
-        return new CampaignEntity(
-                campaign.getId(),
-                campaign.getTitle(),
-                campaign.getDescription(),
-                campaign.getCampaignGoal());
+        return CampaignEntity.builder()
+                .id(campaign.getId())
+                .campaignGoal(campaign.getCampaignGoal())
+                .title(campaign.getTitle())
+                .description(campaign.getDescription()).build();
     }
 }

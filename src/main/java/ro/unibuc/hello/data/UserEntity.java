@@ -3,8 +3,8 @@ package ro.unibuc.hello.data;
 import lombok.*;
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import ro.unibuc.hello.dto.Donation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -14,15 +14,18 @@ import java.util.List;
 @Builder
 @EqualsAndHashCode
 @ToString
-public class CampaignEntity {
+public class UserEntity {
 
     @Id
     private String id;
 
-    private String title;
-    private String description;
-    private Double campaignGoal;
+    private String firstName;
 
+    private String lastName;
 
+    private String email;
+
+    @DBRef
+    private List<DonationEntity> donations;
 
 }

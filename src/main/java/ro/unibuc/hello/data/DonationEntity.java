@@ -4,8 +4,7 @@ import lombok.*;
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -14,15 +13,14 @@ import java.util.List;
 @Builder
 @EqualsAndHashCode
 @ToString
-public class CampaignEntity {
+public class DonationEntity {
 
     @Id
     private String id;
+    private LocalDate dateOfDonation;
+    private Double amount;
+    private String message;
 
-    private String title;
-    private String description;
-    private Double campaignGoal;
-
-
-
+    @DBRef
+    private UserEntity user;
 }

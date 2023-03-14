@@ -2,11 +2,13 @@ package ro.unibuc.hello.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import ro.unibuc.hello.data.DonationEntity;
 import ro.unibuc.hello.data.DonationRepository;
 import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.data.UserRepository;
+import ro.unibuc.hello.dto.Donation;
 import ro.unibuc.hello.dto.User;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
@@ -68,58 +70,41 @@ public class UserService {
     }
 
     public UserEntity userToUserEntity(User user) {
+        List<DonationEntity> donations = new ArrayList<>();
 
-        UserEntity userEntity = new UserEntity();
-
-        userEntity.setId(user.getId());
-        userEntity.setFirstName(user.getFirstName());
-        userEntity.setLastName(user.getLastName());
-        userEntity.setEmail(user.getEmail());
-
-        if(user.getDonationIds().isEmpty()) {
-            userEntity.setDonations(new ArrayList<>());
-        }
-
-         else {
-
-            List<DonationEntity> donations = new ArrayList<>();
-
+        if(!user.getDonationIds().isEmpty()) {
             for (String donationId : user.getDonationIds()) {
-
                 Optional<DonationEntity> donationEntityOptional = donationRepository.findById(donationId);
-
                 if (!donationEntityOptional.isEmpty()) {
-                    donations.add(new DonationEntity(donationEntityOptional.get().getId()
-                            , donationEntityOptional.get().getDateOfDonation()
-                            , donationEntityOptional.get().getAmount()
-                            , donationEntityOptional.get().getMessage()
-                            , donationEntityOptional.get().getUser()));
+                    donations.add(donationEntityOptional.get());
                 }
             }
-
-            userEntity.setDonations(donations);
         }
-        return userEntity;
+
+        return UserEntity.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .donations(donations)
+                .build();
     }
 
     public User userEntityToUser(UserEntity userEntity) {
-
-        User user = new User();
-
-        user.setId(userEntity.getId());
-        user.setFirstName(userEntity.getFirstName());
-        user.setLastName(userEntity.getLastName());
-        user.setEmail(userEntity.getEmail());
         List<String> donationIds = new ArrayList<>();
 
-        if(userEntity.getDonations().size() != 0) {
+        if(!CollectionUtils.isEmpty(userEntity.getDonations())) {
             for (DonationEntity donationEntity : userEntity.getDonations()) {
                 donationIds.add(donationEntity.getId());
             }
-
         }
 
-        user.setDonationIds(donationIds);
-        return user;
+        return User.builder()
+                .id(userEntity.getId())
+                .firstName(userEntity.getFirstName())
+                .lastName(userEntity.getLastName())
+                .email(userEntity.getEmail())
+                .donationIds(donationIds)
+                .build();
     }
 }

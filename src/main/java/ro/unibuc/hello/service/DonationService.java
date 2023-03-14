@@ -43,6 +43,9 @@ public class DonationService {
             throw new EntityNotFoundException(id);
         }
 
+        if(userRepository.findById(donation.getUserId()).isEmpty())
+            throw new EntityNotFoundException(donation.getUserId());
+
         DonationEntity donationEntity = donationToDonationEntity(donation);
 
         return donationRepository.save(donationEntity).getId();
@@ -68,27 +71,22 @@ public class DonationService {
 
     public Donation donationEntityToDonation(DonationEntity donationEntity) {
 
-        Donation donation = new Donation();
-
-        donation.setId(donationEntity.getId());
-        donation.setDateOfDonation(donationEntity.getDateOfDonation());
-        donation.setAmount(donationEntity.getAmount());
-        donation.setMessage(donationEntity.getMessage());
-        donation.setUserId(donationEntity.getUser().getId());
-
-        return donation;
+        return Donation.builder()
+                .id(donationEntity.getId())
+                .dateOfDonation(donationEntity.getDateOfDonation())
+                .amount(donationEntity.getAmount())
+                .message(donationEntity.getMessage())
+                .userId(donationEntity.getUser().getId()).build();
     }
 
     public DonationEntity donationToDonationEntity(Donation donation) {
 
-        DonationEntity donationEntity = new DonationEntity();
+        return DonationEntity.builder()
+                .id(donation.getId())
+                .dateOfDonation(donation.getDateOfDonation())
+                .amount(donation.getAmount())
+                .message(donation.getMessage())
+                .user(userRepository.findById(donation.getUserId()).get()).build();
 
-        donationEntity.setId(donation.getId());
-        donationEntity.setDateOfDonation(donation.getDateOfDonation());
-        donationEntity.setAmount(donation.getAmount());
-        donationEntity.setMessage(donation.getMessage());
-        donationEntity.setUser(userRepository.findById(donation.getUserId()).get());
-
-        return donationEntity;
     }
 }

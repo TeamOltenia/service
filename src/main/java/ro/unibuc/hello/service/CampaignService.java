@@ -1,17 +1,27 @@
 package ro.unibuc.hello.service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import ro.unibuc.hello.data.CampaignEntity;
 import ro.unibuc.hello.data.CampaignRepository;
+import ro.unibuc.hello.data.DonationEntity;
+import ro.unibuc.hello.data.DonationRepository;
 import ro.unibuc.hello.dto.Campaign;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class CampaignService {
+
+    @Autowired
+    private DonationRepository donationRepository;
 
     @Autowired
     private CampaignRepository campaignRepository;
@@ -60,18 +70,28 @@ public class CampaignService {
     }
 
     private Campaign campaignEntityToCampaign(CampaignEntity campaignEntity){
+
      return Campaign.builder()
              .id(campaignEntity.getId())
              .campaignGoal(campaignEntity.getCampaignGoal())
              .title(campaignEntity.getTitle())
-             .description(campaignEntity.getDescription()).build();
+             .description(campaignEntity.getDescription())
+             .donationIds(CollectionUtils.isEmpty(campaignEntity.getDonationIds())?
+                     new ArrayList<>():
+                     campaignEntity.getDonationIds().stream().map(x->x.getId()).collect(Collectors.toList()))
+             .build();
     }
 
     private CampaignEntity campaignToCampaignEntity(Campaign campaign) {
+
         return CampaignEntity.builder()
                 .id(campaign.getId())
                 .campaignGoal(campaign.getCampaignGoal())
                 .title(campaign.getTitle())
-                .description(campaign.getDescription()).build();
+                .description(campaign.getDescription())
+                .donationIds(CollectionUtils.isEmpty(campaign.getDonationIds())?
+                        new ArrayList<>():
+                        donationRepository.findByIdIn(campaign.getDonationIds()))
+                .build();
     }
 }

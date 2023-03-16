@@ -1,10 +1,9 @@
 package ro.unibuc.hello.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
-import ro.unibuc.hello.data.DonationEntity;
-import ro.unibuc.hello.data.DonationRepository;
-import ro.unibuc.hello.data.UserRepository;
+import ro.unibuc.hello.data.*;
 import ro.unibuc.hello.dto.Donation;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
@@ -20,6 +19,9 @@ public class DonationService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CampaignRepository campaignRepository;
 
     public Donation getDonationById(String id) {
 
@@ -39,20 +41,72 @@ public class DonationService {
     }
 
     public String updateDonationById(String id, Donation donation) {
-        if(!StringUtils.hasText(id)){
+        if(StringUtils.isEmpty(id) ||
+                StringUtils.isEmpty(donation.getUserId()) ||
+                StringUtils.isEmpty(donation.getCampaignId()) ||
+                StringUtils.isEmpty(donation.getId()) ||
+                !id.equals(donation.getId())) {
             throw new EntityNotFoundException(id);
         }
 
-        if(userRepository.findById(donation.getUserId()).isEmpty())
+        Optional<DonationEntity> donationOptional = donationRepository.findById(id);
+        if (donationOptional.isEmpty()) {
+            throw new EntityNotFoundException("");
+        }
+        CampaignEntity campaign = campaignRepository.findByDonationIdsContaining(donationOptional.get()).get();
+        UserEntity user = userRepository.findByDonationsContaining(donationOptional.get()).get();
+        user.getDonations().remove(donationOptional.get());
+        campaign.getDonationIds().remove(donationOptional.get());
+        campaignRepository.save(campaign);
+        userRepository.save(user);
+
+        if(userRepository.findById(donation.getUserId()).isEmpty() ||
+                campaignRepository.findById(donation.getCampaignId()).isEmpty()) {
+
             throw new EntityNotFoundException(donation.getUserId());
+        }
 
-        DonationEntity donationEntity = donationToDonationEntity(donation);
+        Optional<UserEntity> optionalUser = userRepository.findById(donation.getUserId());
+        Optional<CampaignEntity> optionalCampaign = campaignRepository.findById(donation.getCampaignId());
 
-        return donationRepository.save(donationEntity).getId();
+        if (optionalUser.isEmpty() || optionalCampaign.isEmpty()) {
+            throw new EntityNotFoundException("");
+        }
+
+        DonationEntity donationEntity = donationRepository.save(donationToDonationEntity(donation));
+        user = optionalUser.get();
+        campaign = optionalCampaign.get();
+        campaign.getDonationIds().add(donationEntity);
+        user.getDonations().add(donationEntity);
+        userRepository.save(user);
+        campaignRepository.save(campaign);
+
+
+
+        return donationEntity.getId();
     }
 
     public String saveDonation(Donation donation) {
+
+        if (StringUtils.isEmpty(donation.getUserId()) ||
+                StringUtils.isEmpty(donation.getCampaignId())) {
+            throw new EntityNotFoundException("");
+        }
+
+        Optional<UserEntity> optionalUser = userRepository.findById(donation.getUserId());
+        Optional<CampaignEntity> optionalCampaign = campaignRepository.findById(donation.getCampaignId());
+
+        if (optionalUser.isEmpty() || optionalCampaign.isEmpty()) {
+            throw new EntityNotFoundException("");
+        }
+
         DonationEntity donationEntity = donationRepository.save(donationToDonationEntity(donation));
+        UserEntity user = optionalUser.get();
+        CampaignEntity campaign = optionalCampaign.get();
+        campaign.getDonationIds().add(donationEntity);
+        user.getDonations().add(donationEntity);
+        userRepository.save(user);
+        campaignRepository.save(campaign);
 
         return donationEntity.getId();
     }
@@ -61,6 +115,18 @@ public class DonationService {
         if(!StringUtils.hasText(id)){
             throw new EntityNotFoundException(id);
         }
+
+        Optional<DonationEntity> donationOptional = donationRepository.findById(id);
+        if (donationOptional.isEmpty()) {
+            throw new EntityNotFoundException("");
+        }
+
+        CampaignEntity campaign = campaignRepository.findByDonationIdsContaining(donationOptional.get()).get();
+        UserEntity user = userRepository.findByDonationsContaining(donationOptional.get()).get();
+        user.getDonations().remove(donationOptional.get());
+        campaign.getDonationIds().remove(donationOptional.get());
+        campaignRepository.save(campaign);
+        userRepository.save(user);
 
         try{
             donationRepository.deleteById(id);
@@ -76,7 +142,9 @@ public class DonationService {
                 .dateOfDonation(donationEntity.getDateOfDonation())
                 .amount(donationEntity.getAmount())
                 .message(donationEntity.getMessage())
-                .userId(donationEntity.getUser().getId()).build();
+                .userId(donationEntity.getUser().getId())
+                .campaignId(donationEntity.getCampaign().getId())
+                .build();
     }
 
     public DonationEntity donationToDonationEntity(Donation donation) {
@@ -86,7 +154,9 @@ public class DonationService {
                 .dateOfDonation(donation.getDateOfDonation())
                 .amount(donation.getAmount())
                 .message(donation.getMessage())
-                .user(userRepository.findById(donation.getUserId()).get()).build();
+                .user(userRepository.findById(donation.getUserId()).get())
+                .campaign((campaignRepository.findById(donation.getCampaignId()).get()))
+                .build();
 
     }
 }

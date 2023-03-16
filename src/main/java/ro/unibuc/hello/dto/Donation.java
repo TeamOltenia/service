@@ -19,6 +19,7 @@ public class Donation {
     private String message;
     private String userId;
 
-//    private String campaignId;
+    private String campaignId;
+
 
 }

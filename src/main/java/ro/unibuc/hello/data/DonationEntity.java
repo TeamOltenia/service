@@ -5,6 +5,8 @@ import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -23,4 +25,7 @@ public class DonationEntity {
 
     @DBRef
     private UserEntity user;
+
+    @DBRef
+    private CampaignEntity campaign;
 }

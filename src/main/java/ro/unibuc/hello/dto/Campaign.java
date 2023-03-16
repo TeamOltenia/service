@@ -18,5 +18,7 @@ public class Campaign {
     private String description;
     private Double campaignGoal;
 
+    private List<String> donationIds = new ArrayList<>();
+
 
 }

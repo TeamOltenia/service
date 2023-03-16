@@ -5,7 +5,9 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import ro.unibuc.hello.data.*;
 import ro.unibuc.hello.dto.Donation;
+import ro.unibuc.hello.exception.CustomErrorHandler;
 import ro.unibuc.hello.exception.EntityNotFoundException;
+import ro.unibuc.hello.exception.ExceptionEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +28,13 @@ public class DonationService {
     public Donation getDonationById(String id) {
 
         if(!StringUtils.hasText(id)) {
-            throw new EntityNotFoundException(id);
+            throw new CustomErrorHandler(ExceptionEnum.EMPTY_FIELD);
         }
 
         Optional<DonationEntity> donationEntityOptional = donationRepository.findById(id);
 
         if(donationEntityOptional.isEmpty()) {
-            throw new EntityNotFoundException(id);
+            throw new CustomErrorHandler(ExceptionEnum.EMPTY_FIELD);
         }
 
         Donation donation = donationEntityToDonation(donationEntityOptional.get());
@@ -46,12 +48,12 @@ public class DonationService {
                 StringUtils.isEmpty(donation.getCampaignId()) ||
                 StringUtils.isEmpty(donation.getId()) ||
                 !id.equals(donation.getId())) {
-            throw new EntityNotFoundException(id);
+            throw new CustomErrorHandler(ExceptionEnum.EMPTY_FIELD);
         }
 
         Optional<DonationEntity> donationOptional = donationRepository.findById(id);
         if (donationOptional.isEmpty()) {
-            throw new EntityNotFoundException("");
+            throw new CustomErrorHandler(ExceptionEnum.EMPTY_FIELD);
         }
         CampaignEntity campaign = campaignRepository.findByDonationIdsContaining(donationOptional.get()).get();
         UserEntity user = userRepository.findByDonationsContaining(donationOptional.get()).get();
@@ -70,7 +72,7 @@ public class DonationService {
         Optional<CampaignEntity> optionalCampaign = campaignRepository.findById(donation.getCampaignId());
 
         if (optionalUser.isEmpty() || optionalCampaign.isEmpty()) {
-            throw new EntityNotFoundException("");
+            throw new CustomErrorHandler(ExceptionEnum.EMPTY_FIELD);
         }
 
         DonationEntity donationEntity = donationRepository.save(donationToDonationEntity(donation));
@@ -90,14 +92,14 @@ public class DonationService {
 
         if (StringUtils.isEmpty(donation.getUserId()) ||
                 StringUtils.isEmpty(donation.getCampaignId())) {
-            throw new EntityNotFoundException("");
+            throw new CustomErrorHandler(ExceptionEnum.EMPTY_FIELD);
         }
 
         Optional<UserEntity> optionalUser = userRepository.findById(donation.getUserId());
         Optional<CampaignEntity> optionalCampaign = campaignRepository.findById(donation.getCampaignId());
 
         if (optionalUser.isEmpty() || optionalCampaign.isEmpty()) {
-            throw new EntityNotFoundException("");
+            throw new CustomErrorHandler(ExceptionEnum.EMPTY_FIELD);
         }
 
         DonationEntity donationEntity = donationRepository.save(donationToDonationEntity(donation));
@@ -113,12 +115,12 @@ public class DonationService {
 
     public void deleteDonationById(String id){
         if(!StringUtils.hasText(id)){
-            throw new EntityNotFoundException(id);
+            throw new CustomErrorHandler(ExceptionEnum.EMPTY_FIELD);
         }
 
         Optional<DonationEntity> donationOptional = donationRepository.findById(id);
         if (donationOptional.isEmpty()) {
-            throw new EntityNotFoundException("");
+            throw new CustomErrorHandler(ExceptionEnum.EMPTY_FIELD);
         }
 
         CampaignEntity campaign = campaignRepository.findByDonationIdsContaining(donationOptional.get()).get();

@@ -10,7 +10,9 @@ import ro.unibuc.hello.data.CampaignRepository;
 import ro.unibuc.hello.data.DonationEntity;
 import ro.unibuc.hello.data.DonationRepository;
 import ro.unibuc.hello.dto.Campaign;
+import ro.unibuc.hello.exception.CustomErrorHandler;
 import ro.unibuc.hello.exception.EntityNotFoundException;
+import ro.unibuc.hello.exception.ExceptionEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +30,11 @@ public class CampaignService {
 
     public Campaign getCampaignById(String id){
         if(!StringUtils.hasText(id)){
-            throw new EntityNotFoundException(id);
+            throw new CustomErrorHandler(ExceptionEnum.EMPTY_FIELD);
         }
         Optional<CampaignEntity> campaignEntityOptional= campaignRepository.findById(id);
         if(campaignEntityOptional.isEmpty()){
-            throw new EntityNotFoundException(id);
+            throw new CustomErrorHandler(ExceptionEnum.EMPTY_FIELD);
         }
         Campaign campaign = campaignEntityToCampaign(campaignEntityOptional.get());
         return campaign;
@@ -59,7 +61,7 @@ public class CampaignService {
     public void deleteCampaignById(String id) {
 
         if(!StringUtils.hasText(id)) {
-            throw new EntityNotFoundException(id);
+            throw new CustomErrorHandler(ExceptionEnum.EMPTY_FIELD);
         }
 
         try {

@@ -10,7 +10,9 @@ import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.dto.Donation;
 import ro.unibuc.hello.dto.User;
+import ro.unibuc.hello.exception.CustomErrorHandler;
 import ro.unibuc.hello.exception.EntityNotFoundException;
+import ro.unibuc.hello.exception.ExceptionEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +30,13 @@ public class UserService {
     public User getUserById(String id) {
 
         if(!StringUtils.hasText(id)) {
-            throw new EntityNotFoundException(id);
+            throw new CustomErrorHandler(ExceptionEnum.EMPTY_FIELD);
         }
 
         Optional<UserEntity> userEntityOptional = userRepository.findById(id);
 
         if(userEntityOptional.isEmpty()){
-            throw new EntityNotFoundException(id);
+            throw new CustomErrorHandler(ExceptionEnum.EMPTY_FIELD);
         }
 
         return  userEntityToUser(userEntityOptional.get());
@@ -43,7 +45,7 @@ public class UserService {
 
     public String updateUserById(String id, User user) {
         if(!StringUtils.hasText(id)){
-            throw new EntityNotFoundException(id);
+            throw new CustomErrorHandler(ExceptionEnum.EMPTY_FIELD);
         }
 
         UserEntity userEntity = userToUserEntity(user);
@@ -59,7 +61,7 @@ public class UserService {
 
     public void deleteUserById(String id) {
         if(!StringUtils.hasText(id)) {
-            throw new EntityNotFoundException(id);
+            throw new CustomErrorHandler(ExceptionEnum.EMPTY_FIELD);
         }
 
         try{

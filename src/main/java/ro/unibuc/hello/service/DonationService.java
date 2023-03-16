@@ -54,7 +54,7 @@ public class DonationService {
             throw new EntityNotFoundException("");
         }
         CampaignEntity campaign = campaignRepository.findByDonationIdsContaining(donationOptional.get()).get();
-        UserEntity user = donationOptional.get().getUser();
+        UserEntity user = userRepository.findByDonationsContaining(donationOptional.get()).get();
         user.getDonations().remove(donationOptional.get());
         campaign.getDonationIds().remove(donationOptional.get());
         campaignRepository.save(campaign);
@@ -115,6 +115,18 @@ public class DonationService {
         if(!StringUtils.hasText(id)){
             throw new EntityNotFoundException(id);
         }
+
+        Optional<DonationEntity> donationOptional = donationRepository.findById(id);
+        if (donationOptional.isEmpty()) {
+            throw new EntityNotFoundException("");
+        }
+
+        CampaignEntity campaign = campaignRepository.findByDonationIdsContaining(donationOptional.get()).get();
+        UserEntity user = userRepository.findByDonationsContaining(donationOptional.get()).get();
+        user.getDonations().remove(donationOptional.get());
+        campaign.getDonationIds().remove(donationOptional.get());
+        campaignRepository.save(campaign);
+        userRepository.save(user);
 
         try{
             donationRepository.deleteById(id);

@@ -31,6 +31,9 @@ public class DonationTest {
     }
 
     @Test
+    void testMessage() { assertThat(donation.getMessage()).isEqualTo("This is a powerful donation"); }
+
+    @Test
     void testAmount() {
         assertThat(donation.getAmount()).isEqualTo(123.55);
     }

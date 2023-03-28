@@ -23,8 +23,8 @@ public class UserTest {
     @Test
     void testContent() {
         Assertions.assertAll(() -> assertEquals("firstName", user.getFirstName()),
-                () -> assertEquals("lastName", user.getLastName()),
-                () -> assertEquals("userTest@email.com", user.getEmail())
+                () -> assertEquals("lastName2", user.getLastName()),
+                () -> assertEquals("userTest2@email.com", user.getEmail())
         );
     }
 

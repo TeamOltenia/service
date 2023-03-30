@@ -54,7 +54,7 @@ public class CampaignServiceTest {
     @Test
     public void updateCampaignById(){
 
-        when(campaignRepository.save(Mockito.any())).thenReturn(getCampaignEntity());
+        when(campaignRepository.save(any())).thenReturn(getCampaignEntity());
         String campaignId = campaignService.updateCampaignById("123",getCampaign());
         Assertions.assertEquals(campaignId,getCampaignEntity().getId());
     }
@@ -66,7 +66,7 @@ public class CampaignServiceTest {
 
     @Test
     public void saveCampaign(){
-        when(campaignRepository.save(Mockito.any())).thenReturn(getCampaignEntity());
+        when(campaignRepository.save(any())).thenReturn(getCampaignEntity());
         String campaignId = campaignService.saveCampaign(getCampaign());
         Assertions.assertEquals(campaignId,getCampaignEntity().getId());
     }

@@ -40,7 +40,7 @@ public class UserServiceTest {
     @Test
     public void getUserById(){
         UserEntity userEntity = getUserEntity();
-        when(userRepository.findById(Mockito.anyString())).thenReturn(Optional.of(userEntity));
+        when(userRepository.findById(anyString())).thenReturn(Optional.of(userEntity));
         User user = userService.getUserById("10");
         testEqualsUserEntityUser(userEntity, user);
     }
@@ -52,13 +52,13 @@ public class UserServiceTest {
     @Test(expected = CustomErrorHandler.class)
     public void getUserByIdEmptyFieldException(){
         UserEntity userEntity = getUserEntity();
-        when(userRepository.findById(Mockito.anyString())).thenReturn(Optional.empty());
+        when(userRepository.findById(anyString())).thenReturn(Optional.empty());
         userService.getUserById("10");
     }
 
     @Test
     public void updateUserById() {
-        when(userRepository.save(Mockito.any())).thenReturn(getUserEntity());
+        when(userRepository.save(any())).thenReturn(getUserEntity());
         when(donationRepository.findById(anyString())).thenReturn(Optional.of(new DonationEntity()));
         String userId = userService.updateUserById("10", getUser());
         Assertions.assertEquals(userId, getUserEntity().getId());
@@ -70,7 +70,7 @@ public class UserServiceTest {
 
     @Test
     public void saveUser() {
-        when(userRepository.save(Mockito.any())).thenReturn(getUserEntity());
+        when(userRepository.save(any())).thenReturn(getUserEntity());
         String userId = userService.saveUser(getUser());
         Assertions.assertEquals(userId, getUserEntity().getId());
     }

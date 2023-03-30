@@ -40,7 +40,7 @@ public class DonationServiceTest {
     @Test
     public void getDonationById() {
         DonationEntity donationEntity = getDonationEntity();
-        when(donationRepository.findById(Mockito.anyString())).thenReturn(Optional.of(donationEntity));
+        when(donationRepository.findById(anyString())).thenReturn(Optional.of(donationEntity));
         Donation donation = donationService.getDonationById("494");
         testEqualsDonationEntityDonation(donationEntity, donation);
     }
@@ -53,18 +53,18 @@ public class DonationServiceTest {
     @Test(expected = CustomErrorHandler.class)
     public void getDonationByIdEmptyFieldException(){
         DonationEntity donationEntity = getDonationEntity();
-        when(donationRepository.findById(Mockito.anyString())).thenReturn(Optional.empty());
+        when(donationRepository.findById(anyString())).thenReturn(Optional.empty());
         donationService.getDonationById("494");
     }
 
     @Test
     public void updateDonationById(){
-        when(campaignRepository.findByDonationIdsContaining(Mockito.any())).thenReturn(Optional.of(new CampaignEntity()));
-        when(userRepository.findByDonationsContaining(Mockito.any())).thenReturn(Optional.of(new UserEntity()));
-        when(donationRepository.findById(Mockito.anyString())).thenReturn(Optional.of(getDonationEntity()));
-        when(donationRepository.save(Mockito.any())).thenReturn(getDonationEntity());
-        when(userRepository.findById(Mockito.anyString())).thenReturn(Optional.of(new UserEntity()));
-        when(campaignRepository.findById(Mockito.anyString())).thenReturn(Optional.of(new CampaignEntity()));
+        when(campaignRepository.findByDonationIdsContaining(any())).thenReturn(Optional.of(new CampaignEntity()));
+        when(userRepository.findByDonationsContaining(any())).thenReturn(Optional.of(new UserEntity()));
+        when(donationRepository.findById(anyString())).thenReturn(Optional.of(getDonationEntity()));
+        when(donationRepository.save(any())).thenReturn(getDonationEntity());
+        when(userRepository.findById(anyString())).thenReturn(Optional.of(new UserEntity()));
+        when(campaignRepository.findById(anyString())).thenReturn(Optional.of(new CampaignEntity()));
         String donationId = donationService.updateDonationById("494", getDonation());
         Assertions.assertEquals(donationId, getDonationEntity().getId());
     }
@@ -76,10 +76,10 @@ public class DonationServiceTest {
 
     @Test
     public void saveDonation(){
-        when(donationRepository.save(Mockito.any())).thenReturn(getDonationEntity());
-        when(userRepository.findById(Mockito.anyString())).thenReturn(Optional.of(new UserEntity()));
-        when(campaignRepository.findById(Mockito.anyString())).thenReturn(Optional.of(new CampaignEntity()));
-        when(donationRepository.save(Mockito.any())).thenReturn(getDonationEntity());
+        when(donationRepository.save(any())).thenReturn(getDonationEntity());
+        when(userRepository.findById(anyString())).thenReturn(Optional.of(new UserEntity()));
+        when(campaignRepository.findById(anyString())).thenReturn(Optional.of(new CampaignEntity()));
+        when(donationRepository.save(any())).thenReturn(getDonationEntity());
         String campaignId = donationService.saveDonation(getDonation());
         Assertions.assertEquals(campaignId, getDonationEntity().getId());
     }
@@ -87,9 +87,9 @@ public class DonationServiceTest {
     @Test
     public void deleteDonationById(){
 
-        when(campaignRepository.findByDonationIdsContaining(Mockito.any())).thenReturn(Optional.of(new CampaignEntity()));
-        when(userRepository.findByDonationsContaining(Mockito.any())).thenReturn(Optional.of(new UserEntity()));
-        when(donationRepository.findById(Mockito.anyString())).thenReturn(Optional.of(getDonationEntity()));
+        when(campaignRepository.findByDonationIdsContaining(any())).thenReturn(Optional.of(new CampaignEntity()));
+        when(userRepository.findByDonationsContaining(any())).thenReturn(Optional.of(new UserEntity()));
+        when(donationRepository.findById(anyString())).thenReturn(Optional.of(getDonationEntity()));
         doNothing().when(donationRepository).deleteById(anyString());
         donationService.deleteDonationById("494");
     }
@@ -101,9 +101,9 @@ public class DonationServiceTest {
 
     @Test
     public void deleteDonationByIdIllegalArgumentException(){
-        when(campaignRepository.findByDonationIdsContaining(Mockito.any())).thenReturn(Optional.of(new CampaignEntity()));
-        when(userRepository.findByDonationsContaining(Mockito.any())).thenReturn(Optional.of(new UserEntity()));
-        when(donationRepository.findById(Mockito.anyString())).thenReturn(Optional.of(getDonationEntity()));
+        when(campaignRepository.findByDonationIdsContaining(any())).thenReturn(Optional.of(new CampaignEntity()));
+        when(userRepository.findByDonationsContaining(any())).thenReturn(Optional.of(new UserEntity()));
+        when(donationRepository.findById(anyString())).thenReturn(Optional.of(getDonationEntity()));
         doThrow(new IllegalArgumentException()).when(donationRepository).deleteById(anyString());
         donationService.deleteDonationById("494");
     }
@@ -111,7 +111,7 @@ public class DonationServiceTest {
     @Test(expected = CustomErrorHandler.class)
     public void deleteDonationByIdEmptyFieldException(){
         DonationEntity donationEntity = getDonationEntity();
-        when(donationRepository.findById(Mockito.anyString())).thenReturn(Optional.empty());
+        when(donationRepository.findById(anyString())).thenReturn(Optional.empty());
         donationService.deleteDonationById("494");
     }
 

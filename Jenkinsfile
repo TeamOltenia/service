@@ -1,9 +1,4 @@
 pipeline {
-    agent any
-    environment {
-        DOCKER_PASSWORD = credentials("docker_password")
-    }
-
     stages {
         stage('Build & Test') {
             steps {
@@ -20,6 +15,7 @@ pipeline {
                     PATCH_VERSION = sh([script: 'git tag | cut -d . -f 3', returnStdout: true]).trim()
                 }
                 sh "docker build -t lsbogdan/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} ."
+
               }
         }
     }

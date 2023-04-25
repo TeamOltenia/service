@@ -25,6 +25,8 @@ pipeline {
                        env.IMAGE_TAG = "${env.MAJOR_VERSION}.\$((${env.MINOR_VERSION} + 1)).${env.PATCH_VERSION}"
                     }
 
+                    sh 'echo $DOCKER_PASSWORD'
+                    
                     sh "docker login docker.io -u lsbogdan -p $DOCKER_PASSWORD"
 
                     sh "docker build -t lsbogdan/hello-img:$IMAGE_VERSION ."

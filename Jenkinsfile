@@ -3,14 +3,13 @@ pipeline {
 
      environment {
 
-            DOCKER_PASSWORD = credentials("6eca262f-8fec-4698-947a-8dccbbaca615")
+            DOCKER_PASSWORD = credentials("af01d311-cfe5-4bbf-9032-3f0c1f3cdfb2")
             GITHUB_TOKEN = credentials("0607d1ee-5e83-4620-a56c-80812cf117c4")
         }
 
     stages {
         stage('Build & Test') {
             steps {
-                sh 'echo $DOCKER_PASSWORD'
                 sh './gradlew clean build'
             }
         }

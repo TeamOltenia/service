@@ -31,6 +31,8 @@ pipeline {
 
                     sh "docker build -t lsbogdan/hello-img:${env.IMAGE_TAG} ."
 
+                    sh "docker push lsbogdan/hello-img:${env.IMAGE_TAG}"
+
 
                     sh "git tag ${env.IMAGE_TAG}"
                     sh "git push https://$GITHUB_TOKEN@github.com/TeamOltenia/service.git ${env.IMAGE_TAG}"

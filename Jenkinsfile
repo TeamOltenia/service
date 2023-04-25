@@ -3,7 +3,7 @@ pipeline {
 
      environment {
 
-            DOCKER_PASSWORD = credentials("lsbogdan")
+            DOCKER_PASSWORD = credentials("hava")
             GITHUB_TOKEN = credentials("github_token")
         }
 

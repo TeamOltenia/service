@@ -3,7 +3,7 @@ pipeline {
 
      environment {
 
-            DOCKER_PASSWORD = credentials("e0079091-6e79-4898-b8b3-ca7169373346")
+            DOCKER_PASSWORD = credentials("f6475a88-da1d-4b1a-bbe0-4e0e90741114")
             GITHUB_TOKEN = credentials("0607d1ee-5e83-4620-a56c-80812cf117c4")
         }
 

@@ -4,7 +4,7 @@ pipeline {
      environment {
 
             DOCKER_PASSWORD = credentials("f6475a88-da1d-4b1a-bbe0-4e0e90741114")
-            GITHUB_TOKEN = credentials("0607d1ee-5e83-4620-a56c-80812cf117c4")
+            GITHUB_TOKEN = credentials("6486d247-483a-46a1-90f8-123278354784")
         }
 
     stages {

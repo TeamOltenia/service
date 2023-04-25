@@ -3,7 +3,7 @@ pipeline {
 
      environment {
 
-            DOCKER_PASSWORD = credentials("af01d311-cfe5-4bbf-9032-3f0c1f3cdfb2")
+            DOCKER_PASSWORD = credentials("e0079091-6e79-4898-b8b3-ca7169373346")
             GITHUB_TOKEN = credentials("0607d1ee-5e83-4620-a56c-80812cf117c4")
         }
 
@@ -26,7 +26,7 @@ pipeline {
                     }
 
                     sh 'echo $DOCKER_PASSWORD'
-                    
+
                     sh "docker login docker.io -u lsbogdan -p $DOCKER_PASSWORD"
 
                     sh "docker build -t lsbogdan/hello-img:$IMAGE_VERSION ."

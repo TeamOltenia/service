@@ -1,10 +1,11 @@
 version: '3.1'
 services:
   hello:
-    image: lsbogdan/hello-img
+    image: lsbogdan/hello-img:${IMAGE_TAG}
     ports:
       - 8080:8080
     environment:
+      IMAGE_TAG: ${IMAGE_TAG}
       ENVIRONMENT_NAME: local
       MONGODB_CONECTION_URL: mongodb://root:example@mongo:27017/
     restart: always

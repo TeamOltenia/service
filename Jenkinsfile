@@ -28,7 +28,7 @@ pipeline {
                     sh "docker build -t lsbogdan/hello-img:${env.IMAGE_TAG} ."
 
                     sh "docker login docker.io -u lsbogdan -p $DOCKER_PASSWORD"
-                    
+                       
                     sh "docker push lsbogdan/hello-img:${env.IMAGE_TAG}"
 
 

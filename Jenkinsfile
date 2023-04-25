@@ -29,7 +29,7 @@ pipeline {
 
                     sh "docker login docker.io -u lsbogdan -p $DOCKER_PASSWORD"
 
-                    sh "docker build -t lsbogdan/hello-img:$IMAGE_VERSION ."
+                    sh "docker build -t lsbogdan/hello-img:${env.IMAGE_TAG} ."
 
 
                     sh "git tag ${env.IMAGE_TAG}"

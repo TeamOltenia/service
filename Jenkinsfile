@@ -33,7 +33,7 @@ pipeline {
 
 
                     sh "git tag ${env.IMAGE_TAG}"
-                    sh "git push https://$GITHUB_TOKEN@github.com/lsbogdan/service.git ${env.IMAGE_TAG}"
+                    sh "git push https://$GITHUB_TOKEN@github.com/TeamOltenia/service.git ${env.IMAGE_TAG}"
               }
         }
       stage('Compose_IMAGE') {

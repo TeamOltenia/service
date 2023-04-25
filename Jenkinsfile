@@ -3,7 +3,7 @@ pipeline {
 
      environment {
 
-            DOCKER_PASSWORD = credentials("hava")
+            DOCKER_PASSWORD = credentials("6eca262f-8fec-4698-947a-8dccbbaca615")
             GITHUB_TOKEN = credentials("github_token")
         }
 

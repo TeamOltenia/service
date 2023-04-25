@@ -5,7 +5,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      IMAGE_TAG: ${IMAGE_TAG}
+      IMAGE_TAG: ${env.IMAGE_TAG}
       ENVIRONMENT_NAME: local
       MONGODB_CONECTION_URL: mongodb://root:example@mongo:27017/
     restart: always

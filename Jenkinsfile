@@ -34,9 +34,12 @@ pipeline {
         }
 
         stage('Compose_IMAGE') {
-            steps {
-                sh "/usr/local/bin/docker-compose up -d hello"
+          steps {
+            script {
+              env.IMAGE_TAG="${env.IMAGE_TAG}"
+              sh "/usr/local/bin/docker-compose up -d hello"
             }
+          }
         }
     }
 }

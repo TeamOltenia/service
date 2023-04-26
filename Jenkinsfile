@@ -37,6 +37,8 @@ pipeline {
                 sh "docker push lsbogdan/hello-img:${env.IMAGE_TAG}"
                 sh "docker push lsbogdan/hello-img:latest"
 
+                sh "docker run -d -p 27017:27017 –name=mongo-1 mongo:5.0.2 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=example"
+
                 sh "git tag ${env.IMAGE_TAG}"
                 sh "git push https://$GITHUB_TOKEN@github.com/TeamOltenia/service.git ${env.IMAGE_TAG}"
             }

@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   hello:
-    image: lsbogdan/hello-img
+    image: lsbogdan/hello-img:${env.IMAGE_TAG}
     ports:
       - 8080:8080
     environment:
@@ -32,7 +32,6 @@ services:
     ports:
       - 8083:8080
     volumes:
-
       - /var/run/docker.sock:/var/run/docker.sock
       - jenkins_volume:/var/jenkins_home
     restart: always

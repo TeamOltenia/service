@@ -41,13 +41,15 @@ pipeline {
             }
         }
 
-        stage('Compose') {
-          steps {
+    stage('Compose') {
+        steps {
             script {
-              env.IMAGE_TAG="${env.IMAGE_TAG}"
-              sh "/usr/local/bin/docker-compose up -d hello"
+                sh "docker login -u lsbogdan -p $DOCKER_TOKEN"
+                sh "docker-compose pull hello"
+                env.IMAGE_TAG="${env.IMAGE_TAG}"
+                sh "/usr/local/bin/docker-compose up -d"
+                }
             }
-          }
         }
     }
 }

@@ -21,12 +21,6 @@ pipeline {
             }
         }
 
-        stage('Execute E2E tests') {
-            steps {
-                 sh './gradlew testE2E'
-            }
-        }
-
         stage('Tag image') {
             steps {
                 script {
@@ -57,5 +51,11 @@ pipeline {
                 }
             }
         }
+
+        stage('Execute E2E tests') {
+             steps {
+                 sh './gradlew testE2E'
+                 }
+             }
     }
 }

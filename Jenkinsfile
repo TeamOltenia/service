@@ -5,6 +5,7 @@ pipeline {
 
             DOCKER_PASSWORD = credentials("f6475a88-da1d-4b1a-bbe0-4e0e90741114")
             GITHUB_TOKEN = credentials("6486d247-483a-46a1-90f8-123278354784")
+            DOCKER_TOKEN = credentials("18c4d6eb-2986-4fe6-b6ee-bd772e2d6fc7")
         }
 
     stages {
@@ -25,9 +26,9 @@ pipeline {
                        env.IMAGE_TAG = "${env.MAJOR_VERSION}.\$((${env.MINOR_VERSION} + 1)).${env.PATCH_VERSION}"
                     }
 
-                    sh "docker login docker.io -u lsbogdan -p $DOCKER_PASSWORD"
-
                     sh "docker build -t lsbogdan/hello-img:${env.IMAGE_TAG} ."
+
+                    sh "docker login docker.io -u lsbogdan -p $DOCKER_PASSWORD"
 
                     sh "docker tag lsbogdan/hello-img:${env.IMAGE_TAG} lsbogdan/hello-image:${env.IMAGE_TAG}"
 

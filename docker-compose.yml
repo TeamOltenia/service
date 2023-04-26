@@ -32,7 +32,7 @@ services:
     ports:
       - 8083:8080
     volumes:
-      - C:/jenkins_compose/jenkins_configuration:/var/jenkins_home
+    
       - /var/run/docker.sock:/var/run/docker.sock
       - jenkins_volume:/var/jenkins_home
     restart: always

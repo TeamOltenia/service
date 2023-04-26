@@ -41,7 +41,7 @@ pipeline {
             }
         }
 
-        stage('Compose_IMAGE') {
+        stage('Compose') {
           steps {
             script {
               env.IMAGE_TAG="${env.IMAGE_TAG}"

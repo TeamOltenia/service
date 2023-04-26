@@ -21,6 +21,12 @@ pipeline {
             }
         }
 
+        stage('Execute E2E tests') {
+            steps {
+                 sh './gradlew testE2E'
+            }
+        }
+
         stage('Tag image') {
             steps {
                 script {
@@ -50,6 +56,10 @@ pipeline {
                     sh "/usr/local/bin/docker-compose up -d hello"
                 }
             }
+        }
+
+        stage('Integration test') {
+
         }
     }
 }

@@ -57,9 +57,5 @@ pipeline {
                 }
             }
         }
-
-        stage('Integration test') {
-
-        }
     }
 }

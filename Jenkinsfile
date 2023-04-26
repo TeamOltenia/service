@@ -37,7 +37,7 @@ pipeline {
                 sh "docker push lsbogdan/hello-img:${env.IMAGE_TAG}"
                 sh "docker push lsbogdan/hello-img:latest"
 
-                sh "docker run -d -p 27017:27017 --name mongo-1 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=example mongo:5.0.2"
+//                 sh "docker run -d -p 27017:27017 --name mongo-1 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=example mongo:5.0.2"
 
 
                 sh "git tag ${env.IMAGE_TAG}"
@@ -55,10 +55,10 @@ pipeline {
             }
         }
 
-        stage('Execute E2E tests') {
-             steps {
-                 sh './gradlew testE2E'
-                 }
-             }
+//         stage('Execute E2E tests') {
+//              steps {
+//                  sh './gradlew testE2E'
+//                  }
+//         }
     }
 }

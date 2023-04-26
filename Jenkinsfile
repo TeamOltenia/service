@@ -41,15 +41,14 @@ pipeline {
                 sh "git tag ${env.IMAGE_TAG}"
                 sh "git push https://$GITHUB_TOKEN@github.com/TeamOltenia/service.git ${env.IMAGE_TAG}"
             }
-        }
 
-   stage('Compose') {
-     steps {
-        script {
-            env.IMAGE_TAG="${env.IMAGE_TAG}"
-            sh "export IMAGE_TAG=${env.IMAGE_TAG}"
-            sh "/usr/local/bin/docker-compose up -d hello"
+    stage('Compose') {
+         steps {
+            script {
+                env.IMAGE_TAG="${env.IMAGE_TAG}"
+                sh "export IMAGE_TAG=${env.IMAGE_TAG}"
+                sh "/usr/local/bin/docker-compose up -d hello"
+                }
             }
         }
-    }
 }

@@ -35,7 +35,7 @@ pipeline {
 
         stage('Compose_IMAGE') {
             steps {
-                sh "docker-compose up -d hello"
+                sh "/usr/local/bin/docker-compose up -d hello"
             }
         }
     }
